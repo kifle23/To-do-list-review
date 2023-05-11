@@ -2,31 +2,6 @@ import storage from './saveTasksToLocalStorage.js';
 import dragDrop from './dragDrop.js';
 import tasks from './list.js';
 
-const addTask = (taskItem, index, complete) => {
-  if (!taskItem) return;
-
-  const listWrapper = document.querySelector('.to-do-list');
-
-  const taskWrapper = createTaskWrapper(index, complete);
-  const checkbox = createCheckbox(complete);
-  const task = createTask(taskItem, checkbox);
-  const btnWrapper = createBtnWrapper();
-  const delBtn = createDelBtn();
-  const dragBtn = createDragBtn();
-  const description = createDescription(taskItem, index);
-
-  addEventListeners(description, checkbox, delBtn, dragBtn, taskWrapper);
-
-  btnWrapper.appendChild(delBtn);
-  task.appendChild(checkbox);
-  task.appendChild(description);
-  task.appendChild(dragBtn);
-  taskWrapper.appendChild(task);
-  taskWrapper.appendChild(btnWrapper);
-
-  listWrapper.appendChild(taskWrapper);
-};
-
 const createTaskWrapper = (index, complete) => {
   const taskWrapper = document.createElement('div');
   taskWrapper.classList.add('list-item');
@@ -79,7 +54,7 @@ const createDragBtn = () => {
   return dragBtn;
 };
 
-const createDescription = (taskItem, index) => {
+const createDescription = (taskItem) => {
   const description = document.createElement('input');
   description.type = 'text';
   description.classList.add('task-description');
@@ -93,7 +68,7 @@ const addEventListeners = (
   checkbox,
   delBtn,
   dragBtn,
-  taskWrapper
+  taskWrapper,
 ) => {
   description.addEventListener('focus', () => {
     taskWrapper.classList.toggle('field-focus');
@@ -135,6 +110,31 @@ const addEventListeners = (
     checkParent.classList.toggle('completed');
     storage();
   });
+};
+
+const addTask = (taskItem, index, complete) => {
+  if (!taskItem) return;
+
+  const listWrapper = document.querySelector('.to-do-list');
+
+  const taskWrapper = createTaskWrapper(index, complete);
+  const checkbox = createCheckbox(complete);
+  const task = createTask(taskItem, checkbox);
+  const btnWrapper = createBtnWrapper();
+  const delBtn = createDelBtn();
+  const dragBtn = createDragBtn();
+  const description = createDescription(taskItem, index);
+
+  addEventListeners(description, checkbox, delBtn, dragBtn, taskWrapper);
+
+  btnWrapper.appendChild(delBtn);
+  task.appendChild(checkbox);
+  task.appendChild(description);
+  task.appendChild(dragBtn);
+  taskWrapper.appendChild(task);
+  taskWrapper.appendChild(btnWrapper);
+
+  listWrapper.appendChild(taskWrapper);
 };
 
 export default addTask;
